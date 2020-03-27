@@ -1,4 +1,4 @@
-package com.android.bottom.adapters;
+package com.android.bottom.data.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

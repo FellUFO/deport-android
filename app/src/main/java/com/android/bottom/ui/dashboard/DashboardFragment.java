@@ -11,11 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.bottom.R;
-import com.android.bottom.adapters.DashboardAdapter;
+import com.android.bottom.data.adapters.DashboardAdapter;
 import com.android.bottom.data.entity.ProductMessage;
 
 import java.util.ArrayList;
