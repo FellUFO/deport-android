@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Bottom</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">商品</string>
+    <string name="title_notifications">通知</string>
+    <string name="Warehouse">入库</string>
+    <string name="Outbound">出库</string>
+    <string name="history_order">历史单据</string>
+    <string name="location_management">库位管理</string>
+    <string name="add_product">添加</string>
+    <string name="todo">TODO</string>
+    <string name="list_product">产品列表</string>
+</resources>
