@@ -7,17 +7,19 @@
     tools:context=".ui.order.DocumentFragment">
 
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText"
+    <EditText
+        android:id="@+id/input_count"
         android:layout_width="133dp"
         android:layout_height="45dp"
         android:hint="请输入数量"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
-        app:layout_constraintStart_toStartOf="@+id/textInputEditText5"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.444" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText2"
+    <EditText
+        android:id="@+id/input_number"
         android:layout_width="253dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
@@ -28,8 +30,8 @@
         app:layout_constraintTop_toTopOf="@+id/guideline7"
         app:layout_constraintVertical_bias="0.596" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText4"
+    <EditText
+        android:id="@+id/input_personnel"
         android:layout_width="253dp"
         android:layout_height="39dp"
         android:hint="请输入"
@@ -95,7 +97,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.512" />
 
     <TextView
         android:id="@+id/textView11"
@@ -122,8 +125,8 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.3" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText5"
+    <EditText
+        android:id="@+id/input_deportNum"
         android:layout_width="253dp"
         android:layout_height="39dp"
         android:hint="请输入仓库编号"
@@ -163,7 +166,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline13" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/scan_code"
         android:layout_width="127dp"
         android:layout_height="46dp"
         android:text="扫码确认"
@@ -171,5 +174,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textInputEditText"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.431" />
 </androidx.constraintlayout.widget.ConstraintLayout>

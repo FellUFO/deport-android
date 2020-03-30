@@ -68,8 +68,7 @@ public class HomeFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 switch (index){
                                     case 0:
-//                                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-//                                        startActivityForResult(intent, REQUEST_CODE);
+//
                                         Toast.makeText(getActivity(), "请手动输入入库商品", Toast.LENGTH_SHORT).show();
                                         break;
                                     case 1:
@@ -120,15 +119,16 @@ public class HomeFragment extends Fragment {
                             case 0:
 //                                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
 //                                        startActivityForResult(intent, REQUEST_CODE);
-                                Toast.makeText(getActivity(), "请手动输入入库商品", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "正在打开扫码界面", Toast.LENGTH_SHORT).show();
                                 break;
                             case 1:
                                 Toast.makeText(getActivity(), "正在载入...", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getActivity(), OrderActivity.class);
+                                intent.putExtra("object", "入库");
                                 startActivity(intent);
                                 break;
                         }
-                        Toast.makeText(getActivity(), "这是确定按钮" + "点的是：" + items[index], Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "这是确定按钮" + "点的是：" + items[index], Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加取消
                     @Override
