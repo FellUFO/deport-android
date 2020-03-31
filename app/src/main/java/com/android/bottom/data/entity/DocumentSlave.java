@@ -14,7 +14,7 @@ public class DocumentSlave {
     }
 
     public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+        this.id = id;
     }
 
     public String getMasterId() {
@@ -22,7 +22,7 @@ public class DocumentSlave {
     }
 
     public void setMasterId(String masterId) {
-        this.masterId = masterId == null ? null : masterId.trim();
+        this.masterId = masterId ;
     }
 
     public String getProductId() {
@@ -30,7 +30,7 @@ public class DocumentSlave {
     }
 
     public void setProductId(String productId) {
-        this.productId = productId == null ? null : productId.trim();
+        this.productId = productId;
     }
 
     public Integer getCount() {

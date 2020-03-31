@@ -18,7 +18,6 @@ public class DocumentMaster {
 
     private Integer deportId;
 
-    private String deportName;
 
     public String getOrderId() {
         return orderId;
@@ -76,11 +75,6 @@ public class DocumentMaster {
         this.deportId = deportId;
     }
 
-    public String getDeportName() {
-        return deportName;
-    }
 
-    public void setDeportName(String deportName) {
-        this.deportName = deportName == null ? null : deportName.trim();
-    }
+
 }

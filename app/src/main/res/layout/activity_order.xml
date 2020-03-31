@@ -11,12 +11,16 @@
         android:id="@+id/input_count"
         android:layout_width="133dp"
         android:layout_height="45dp"
+        android:autofillHints=""
         android:hint="请输入数量"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8"
-        app:layout_constraintVertical_bias="0.444" />
+        app:layout_constraintVertical_bias="0.533" />
+
+    <!--        android:inputType="numberSigned" />-->
 
     <EditText
         android:id="@+id/input_number"
@@ -24,7 +28,10 @@
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:autofillHints=""
         android:hint="请输入商品编号"
+        android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
+        android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
@@ -34,7 +41,9 @@
         android:id="@+id/input_personnel"
         android:layout_width="253dp"
         android:layout_height="39dp"
-        android:hint="请输入"
+        android:hint="请输入员工编号"
+        android:inputType="number"
+        android:autofillHints=""
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
@@ -129,11 +138,15 @@
         android:id="@+id/input_deportNum"
         android:layout_width="253dp"
         android:layout_height="39dp"
+        android:autofillHints=""
         android:hint="请输入仓库编号"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toTopOf="@+id/guideline11" />
+        app:layout_constraintTop_toTopOf="@+id/guideline11"
+        app:layout_constraintVertical_bias="0.607" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline11"
@@ -176,4 +189,6 @@
         app:layout_constraintStart_toEndOf="@+id/textInputEditText"
         app:layout_constraintTop_toTopOf="@+id/guideline8"
         app:layout_constraintVertical_bias="0.431" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

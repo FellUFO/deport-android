@@ -1,31 +1,54 @@
 package com.android.bottom.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.bottom.R;
-import com.android.bottom.ui.order.DocumentFragment;
-import com.google.android.material.textfield.TextInputEditText;
+import com.android.bottom.data.entity.DocumentMaster;
+import com.android.bottom.data.entity.DocumentSlave;
+import com.android.bottom.data.entity.ProductMessage;
+import com.android.bottom.utils.OrderIDUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class OrderActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * 创建所需变量
+     */
     private ConstraintLayout constraintLayout;
     private EditText inputCount;
     private EditText inputNumber;
@@ -37,6 +60,10 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     private int index;
     private String object;
     private int count;
+    private DocumentMaster documentMaster = new DocumentMaster();
+    private List<DocumentSlave> documentSlaves = new ArrayList<>();
+    private ProductMessage product = new ProductMessage();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,36 +78,85 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         scanCode = (Button)findViewById(R.id.scan_code);
         submit.setOnClickListener(this);
         scanCode.setOnClickListener(this);
+        setUpHintTextSize(inputNumber,"请输入商品编号");
+        setUpHintTextSize(inputPersonnel,"请输入员工编号");
+        setUpHintTextSize(inputDeportNum,"请输入仓库编号");
+        setUpHintTextSize(inputCount,"请输入数量");
     }
 
+    /**
+     * 设置输入框提示字体的大小
+     * @param editText
+     * @param hintText
+     */
+    public void setUpHintTextSize(EditText editText,String hintText){
+        SpannableString s = new SpannableString(hintText);
+        AbsoluteSizeSpan textSize = new AbsoluteSizeSpan(14,true);
+        s.setSpan(textSize, 0 ,s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        editText.setHint(s);
+    }
 
+    /**
+     * 点击事件
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.submit:
-//                先获取各个输入框的文本数据
-                if (inputCount.getText() == null ) {
+                // 先获取各个输入框的文本数据
+                if ("".equals(inputCount.getText().toString())|| "".equals(inputNumber.getText().toString())||"".equals(inputPersonnel.getText().toString()) || "".equals(inputDeportNum.getText().toString())) {
                     Toast.makeText(this,"文本有误，请重新输入！", Toast.LENGTH_SHORT).show();
-                    refresh();
+                } else {
+                    DocumentSlave documentSlave = new DocumentSlave();
+                    count = Integer.parseInt(inputCount.getText().toString());
+                    String number = inputNumber.getText().toString();
+                    Integer personnel = Integer.valueOf(inputPersonnel.getText().toString());
+                    Integer deportNum =  Integer.valueOf(inputDeportNum.getText().toString());
+                    String orderNum = OrderIDUtil.getOrderNum();
+                    //添加属性
+                    documentSlave.setProductId(number);
+                    documentSlave.setCount(count);
+                    documentSlave.setMasterId(orderNum);
+                    //添加属性
+                    documentMaster.setDeportId(deportNum);
+                    documentMaster.setOperator(personnel);
+                    documentMaster.setGenerate(new Date());
+                    documentMaster.setObject(object);
+                    //将对象添加进集合
+                    documentSlaves.add(documentSlave);
+                    //创建对话框
+                    getAlertDialog(deportNum,personnel);
                 }
-                count = Integer.parseInt(inputCount.getText().toString());
-                String number = inputNumber.getText().toString();
-                String personnel = inputPersonnel.getText().toString();
-                String deportNum = inputDeportNum.getText().toString();
-
-                getAlertDialog();
                 break;
             case R.id.scan_code:
+                //创建吐司
                 Toast.makeText(this,"正在打开扫码界面", Toast.LENGTH_SHORT).show();
+                //使用intent跳转Activity
                 Intent intent = new Intent(this,ConfirmActivity.class);
-                intent.putExtra("count",inputCount.getText().toString());
-                intent.putExtra("name",inputNumber.getText().toString());
+                Map map = new HashMap();
+                //绑定数据
+                map.put("count",inputCount.getText().toString());
+                map.put("name",inputNumber.getText().toString());
+                List<Map> list = new ArrayList<>();
+                list.add(map);
+                Bundle bundle = new Bundle();
+                ArrayList arrayList = new ArrayList();
+                arrayList.add(list);
+                bundle.putParcelableArrayList("list",arrayList);
+                intent.putExtras(bundle);
+                //开始跳转
                 startActivity(intent);
                 break;
         }
     }
 
-    public void getAlertDialog(){
+    /**
+     * 创建对话框
+     * @param deportNum
+     * @param personnel
+     */
+    public void getAlertDialog(final Integer deportNum, final Integer personnel){
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("请选择你的操作")
                 .setIcon(R.mipmap.ic_launcher)
@@ -95,16 +171,66 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (index){
                             case 0:
-//                                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-//                                        startActivityForResult(intent, REQUEST_CODE);
                                 Toast.makeText(OrderActivity.this, inputCount.getText().toString(), Toast.LENGTH_SHORT).show();
-
+                                refresh();
+                                inputDeportNum.setText(deportNum+"");
+                                inputPersonnel.setText(personnel+"");
+                                //锁定输入框
+                                inputPersonnel.setFocusable(false);
+                                inputDeportNum.setFocusable(false);
+                                inputPersonnel.setFocusableInTouchMode(false);
+                                inputDeportNum.setFocusableInTouchMode(false);
                                 break;
                             case 1:
                                 Toast.makeText(OrderActivity.this, "正在载入...", Toast.LENGTH_SHORT).show();
+                                // 发送请求给服务器,开启子线程来执行
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Map<String, Object> map = new HashMap<>();
+                                        map.put("documentSlaves",documentSlaves);
+                                        map.put("documentMaster",documentMaster);
+                                        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                                        Gson gson = new GsonBuilder().create();
+                                        String content = gson.toJson(map);
+                                        Log.i("MapJson",content);
+                                        RequestBody body = RequestBody.create(JSON, content);
+                                        String url = "http://192.168.0.116:8080/createDocument";
+                                        final OkHttpClient okHttpClient = new OkHttpClient();
+                                        final Request request = new Request.Builder()
+                                                .url(url)
+                                                .post(body)
+                                                .build();
+                                        try {
+                                            Call call = okHttpClient.newCall(request);
+                                            call.enqueue(new Callback() {
+                                                @Override
+                                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                                    if (e instanceof SocketTimeoutException) {
+                                                        int index = 0;
+                                                        // 重新提交验证   在这里最好限制提交次数
+                                                        if (index <= 5) {
+                                                            okHttpClient.newCall(call.request()).enqueue(this);
+                                                            index++;
+                                                        }
+                                                    }
+                                                    if (e instanceof ConnectException) {
+                                                        Log.e("frost_connection",e.getMessage());
+                                                    }
+                                                }
+                                                @Override
+                                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                                    final String responseBody = response.body().string();
+                                                    Log.i("response", responseBody);
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).start();
                                 break;
                         }
-//                        Toast.makeText(getActivity(), "这是确定按钮" + "点的是：" + items[index], Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加取消
                     @Override
@@ -115,7 +241,9 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         alertDialog.show();
     }
 
-
+    /**
+     * 清楚输入框内的数据
+     */
     public void refresh() {
         inputCount.setText("");
         inputNumber.setText("");

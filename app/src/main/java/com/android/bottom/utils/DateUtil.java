@@ -15,4 +15,10 @@ public class DateUtil {
         currDate = simpleDateFormat.parse(date,pos);
         return currDate;
     }
+
+    public static String getStringDate(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
 }
