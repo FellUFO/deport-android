@@ -1,9 +1,22 @@
 package com.android.bottom.data.entity;
 
-public class TakeMaster {
+import java.io.Serializable;
+import java.util.List;
+
+public class TakeMaster implements Serializable {
     private String taskId;
 
     private Integer state;
+
+    private List<TakeSlave> slaves;
+
+    public List<TakeSlave> getSlaves() {
+        return slaves;
+    }
+
+    public void setSlaves(List<TakeSlave> slaves) {
+        this.slaves = slaves;
+    }
 
     public String getTaskId() {
         return taskId;

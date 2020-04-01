@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +22,31 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.bottom.R;
+import com.android.bottom.data.entity.ProductMessage;
+import com.android.bottom.data.entity.TakeMaster;
 import com.android.bottom.ui.MainActivity;
 import com.android.bottom.ui.OrderActivity;
+import com.android.bottom.ui.TaskActivity;
 import com.android.bottom.ui.order.DocumentFragment;
+import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
     private FragmentManager manager;
     private FragmentTransaction ft;
     final String[] items = new String[]{"扫码","手动输入"};
-    final String[] menus = new String[]{"新增入库","任务处理"};
+    final String[] menus = new String[]{"新增出库","任务处理"};
     private int index;
     private int REQUEST_CODE = 5;
     private HomeViewModel homeViewModel;
@@ -68,11 +86,35 @@ public class HomeFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 switch (index){
                                     case 0:
-//
-                                        Toast.makeText(getActivity(), "请手动输入入库商品", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "正在载入...", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getActivity(), OrderActivity.class);
+                                        intent.putExtra("object", "出库");
+                                        startActivity(intent);
                                         break;
                                     case 1:
-                                        Toast.makeText(getActivity(), "请手动输入入库商品", Toast.LENGTH_SHORT).show();
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                OkHttpClient client = new OkHttpClient();
+                                                String url = "http://192.168.0.116:8080/getTaskByState?state=0";
+                                                final Request request = new Request.Builder().url(url).build();
+                                                Call call = client.newCall(request);
+                                                call.enqueue(new Callback() {
+                                                    @Override
+                                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                                        Log.d("state","连接失败");
+                                                    }
+                                                    //异步请求
+                                                    @Override
+                                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                                        String responseBody = response.body().string();
+                                                        Message message = new Message();
+                                                        message.obj = responseBody;
+                                                        handler.sendMessage(message);
+                                                    }
+                                                });
+                                            }
+                                        }).start();
                                         break;
                                 }
                                 Toast.makeText(getActivity(), "这是确定按钮" + "点的是：" + items[index], Toast.LENGTH_SHORT).show();
@@ -138,4 +180,15 @@ public class HomeFragment extends Fragment {
                 }).create();
         alertDialog.show();
     }
+
+    Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak")
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            String takeMaster = (String) msg.obj;
+            Intent intent = new Intent(getActivity(), TaskActivity.class);
+            intent.putExtra("takeMasters", takeMaster);
+            startActivity(intent);
+        }
+    };
 }

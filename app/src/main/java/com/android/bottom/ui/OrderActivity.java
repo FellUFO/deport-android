@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -63,6 +65,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     private DocumentMaster documentMaster = new DocumentMaster();
     private List<DocumentSlave> documentSlaves = new ArrayList<>();
     private ProductMessage product = new ProductMessage();
+    private String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +126,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                     documentMaster.setOperator(personnel);
                     documentMaster.setGenerate(new Date());
                     documentMaster.setObject(object);
+                    documentMaster.setOrderId(OrderIDUtil.getOrderNum());
                     //将对象添加进集合
                     documentSlaves.add(documentSlave);
                     //创建对话框
@@ -187,13 +191,13 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Map<String, Object> map = new HashMap<>();
-                                        map.put("documentSlaves",documentSlaves);
-                                        map.put("documentMaster",documentMaster);
+                                        documentMaster.setDocumentSlaves(documentSlaves);
                                         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                                        Gson gson = new GsonBuilder().create();
-                                        String content = gson.toJson(map);
-                                        Log.i("MapJson",content);
+                                        Gson gson = new GsonBuilder()
+                                                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                                                .create();
+                                        String content = gson.toJson(documentMaster);
+                                        Log.i("documentMasterJSON",content);
                                         RequestBody body = RequestBody.create(JSON, content);
                                         String url = "http://192.168.0.116:8080/createDocument";
                                         final OkHttpClient okHttpClient = new OkHttpClient();
@@ -213,6 +217,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                                             okHttpClient.newCall(call.request()).enqueue(this);
                                                             index++;
                                                         }
+                                                        Log.e("SocketTimeoutException",e.getMessage());
                                                     }
                                                     if (e instanceof ConnectException) {
                                                         Log.e("frost_connection",e.getMessage());
@@ -222,8 +227,21 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                                     final String responseBody = response.body().string();
                                                     Log.i("response", responseBody);
+                                                    Message message = new Message();
+                                                    message.obj = responseBody;
+                                                    handler.sendMessage(message);
+                                                    Intent intent = new Intent(OrderActivity.this, MainActivity.class);
+                                                    if (responseBody.contains("成功")) {
+                                                        startActivity(intent);
+                                                    } else {
+                                                        //刷新页面
+                                                        refresh();
+                                                    }
                                                 }
                                             });
+                                            //清空数据
+                                            documentSlaves.clear();
+                                            documentMaster = new DocumentMaster();
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -250,4 +268,11 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         inputPersonnel.setText("");
         inputDeportNum.setText("");
     }
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+             result = (String) msg.obj;
+            Toast.makeText(OrderActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+    };
 }

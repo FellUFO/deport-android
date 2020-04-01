@@ -2,6 +2,7 @@ package com.android.bottom.data.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class DocumentMaster {
     private String orderId;
@@ -18,6 +19,15 @@ public class DocumentMaster {
 
     private Integer deportId;
 
+    private List<DocumentSlave> documentSlaves;
+
+    public List<DocumentSlave> getDocumentSlaves() {
+        return documentSlaves;
+    }
+
+    public void setDocumentSlaves(List<DocumentSlave> documentSlaves) {
+        this.documentSlaves = documentSlaves;
+    }
 
     public String getOrderId() {
         return orderId;
@@ -74,7 +84,6 @@ public class DocumentMaster {
     public void setDeportId(Integer deportId) {
         this.deportId = deportId;
     }
-
 
 
 }

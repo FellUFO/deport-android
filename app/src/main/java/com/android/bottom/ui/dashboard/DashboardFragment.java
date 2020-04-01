@@ -52,7 +52,7 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         recyclerView = root.findViewById(R.id.product_list);
-        getDate();
+        getData();
         return root;
     }
 
@@ -74,7 +74,7 @@ public class DashboardFragment extends Fragment {
         mAdapter.setVerticalDataList(productNames);
     }
 
-    public void getDate(){
+    public void getData(){
         //获取所有商品
         new Thread(new Runnable() {
             @Override
