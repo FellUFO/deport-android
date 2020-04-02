@@ -18,7 +18,7 @@
         android:id="@+id/title"
         android:layout_width="245dp"
         android:layout_height="52dp"
-        android:text="未完成任务"
+        android:text="请选择任务进行处理"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

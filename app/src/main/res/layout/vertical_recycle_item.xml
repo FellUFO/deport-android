@@ -20,5 +20,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         tools:text="内容" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="74dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/title"
+            android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/now_count"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/count_num" />
+    </LinearLayout>
+
 
 </LinearLayout>

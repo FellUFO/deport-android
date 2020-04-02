@@ -43,17 +43,16 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentManager manager;
-    private FragmentTransaction ft;
-    final String[] items = new String[]{"扫码","手动输入"};
+    final String[] items = new String[]{"xxxxx","新增出库"};
     final String[] menus = new String[]{"新增出库","任务处理"};
     private int index;
-    private int REQUEST_CODE = 5;
     private HomeViewModel homeViewModel;
     private Button enter;
     private Button out;
     private Button historyOrder;
     private Button locationManagement;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -159,8 +158,6 @@ public class HomeFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (index){
                             case 0:
-//                                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-//                                        startActivityForResult(intent, REQUEST_CODE);
                                 Toast.makeText(getActivity(), "正在打开扫码界面", Toast.LENGTH_SHORT).show();
                                 break;
                             case 1:
@@ -170,7 +167,6 @@ public class HomeFragment extends Fragment {
                                 startActivity(intent);
                                 break;
                         }
-//                        Toast.makeText(getActivity(), "这是确定按钮" + "点的是：" + items[index], Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加取消
                     @Override
@@ -186,6 +182,7 @@ public class HomeFragment extends Fragment {
         @Override
         public void handleMessage(@NonNull Message msg) {
             String takeMaster = (String) msg.obj;
+            Log.i("takeMasters", takeMaster);
             Intent intent = new Intent(getActivity(), TaskActivity.class);
             intent.putExtra("takeMasters", takeMaster);
             startActivity(intent);

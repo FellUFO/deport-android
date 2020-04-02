@@ -1,6 +1,8 @@
 package com.android.bottom.data.entity;
 
-public class TakeSlave {
+
+
+public class TakeSlave{
     private Integer id;
 
     private String masterId;
@@ -40,4 +42,6 @@ public class TakeSlave {
     public void setTaskCount(Integer taskCount) {
         this.taskCount = taskCount;
     }
+
+
 }

@@ -24,13 +24,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
     private Context mContext;
 
-    private List<String> mList = new ArrayList<>();
+    private List<ProductMessage> mList = new ArrayList<>();
 
     public DashboardAdapter(Context context) {
         mContext = context;
     }
 
-    public void setVerticalDataList(List<String> list) {
+    public void setVerticalDataList(List<ProductMessage> list) {
         Log.d(TAG, "setVerticalDataList: " + list.size());
         mList = list;
         notifyDataSetChanged();
@@ -46,7 +46,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
     @Override
     public void onBindViewHolder(@NonNull DashboardHolder holder, int position) {
         holder.tvNum.setText(position + 1 + "");
-        holder.tvContent.setText(mList.get(position));
+        holder.tvContent.setText(mList.get(position).getProductName());
+        holder.nowCount.setText(String.valueOf(mList.get(position).getCount()));
     }
 
     @Override
@@ -56,12 +57,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
     public class DashboardHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNum, tvContent;
+        TextView tvNum, tvContent, nowCount;
 
         public DashboardHolder(View itemView) {
             super(itemView);
             tvNum = itemView.findViewById(R.id.tv_num);
             tvContent = itemView.findViewById(R.id.tv_content);
+            nowCount = itemView.findViewById(R.id.now_count);
         }
     }
 }

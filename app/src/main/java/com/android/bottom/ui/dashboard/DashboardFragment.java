@@ -1,5 +1,6 @@
 package com.android.bottom.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,7 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
 
 
 import androidx.annotation.NonNull;
@@ -21,15 +22,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.bottom.R;
 import com.android.bottom.data.adapters.DashboardAdapter;
 import com.android.bottom.data.entity.ProductMessage;
+import com.android.bottom.ui.AddProductActivity;
 import com.android.bottom.utils.DateUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 
@@ -38,6 +42,7 @@ import okhttp3.Response;
 
 public class DashboardFragment extends Fragment {
 
+    private Button add;
     private DashboardViewModel dashboardViewModel;
     private RecyclerView recyclerView;
     private List<ProductMessage> products = new ArrayList<>();
@@ -45,7 +50,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +57,32 @@ public class DashboardFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         recyclerView = root.findViewById(R.id.product_list);
         getData();
+        add = root.findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //发送请求，获得数据
+                        String url = "http://192.168.0.116:8080/getWarehouse";
+                        OkHttpClient client = new OkHttpClient();
+                        final Request request = new Request.Builder().url(url).build();
+                        try {
+                            Response response = client.newCall(request).execute();
+                            if (response.isSuccessful()) {
+                                String responseBody = response.body().string();
+                                Intent intent = new Intent(getActivity(), AddProductActivity.class);
+                                intent.putExtra("responseBody",responseBody);
+                                startActivity(intent);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
         return root;
     }
 
@@ -66,12 +96,7 @@ public class DashboardFragment extends Fragment {
         //配置适配器
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
-        List<String> productNames = new ArrayList<>();
-
-        for (ProductMessage product : products) {
-            productNames.add(product.getProductName());
-        }
-        mAdapter.setVerticalDataList(productNames);
+        mAdapter.setVerticalDataList(products);
     }
 
     public void getData(){
@@ -139,6 +164,7 @@ public class DashboardFragment extends Fragment {
                 productMessages.add(productMessage);
             }
         }
+
 
 
 }
