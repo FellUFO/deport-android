@@ -1,19 +1,31 @@
 package com.android.bottom.data.entity;
 
-public class DocumentSlave {
-    private String id;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "document_slave")
+public class DocumentSlave {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
+    @ColumnInfo(name = "master_id")
     private String masterId;
 
+    @ColumnInfo(name = "product_id")
     private String productId;
 
+    @ColumnInfo(name = "count")
     private Integer count;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

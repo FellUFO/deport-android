@@ -20,9 +20,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.bottom.R;
+import com.android.bottom.data.DeportRoomDatabase;
+import com.android.bottom.data.dao.DocumentMasterDao;
+import com.android.bottom.data.dao.DocumentSlaveDao;
+import com.android.bottom.data.dao.ProductMessageDao;
 import com.android.bottom.data.entity.DocumentMaster;
 import com.android.bottom.data.entity.DocumentSlave;
+import com.android.bottom.data.entity.MasterAndSlave;
 import com.android.bottom.data.entity.ProductMessage;
+import com.android.bottom.utils.InternetUtil;
 import com.android.bottom.utils.OrderIDUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +57,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     /**
      * 创建所需变量
      */
-    private ConstraintLayout constraintLayout;
     private EditText inputCount;
     private EditText inputNumber;
     private EditText inputPersonnel;
@@ -191,59 +196,92 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        documentMaster.setDocumentSlaves(documentSlaves);
-                                        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                                        Gson gson = new GsonBuilder()
-                                                .setDateFormat("yyyy-MM-dd HH:mm:ss")
-                                                .create();
-                                        String content = gson.toJson(documentMaster);
-                                        Log.i("documentMasterJSON",content);
-                                        RequestBody body = RequestBody.create(JSON, content);
-                                        String url = "http://192.168.0.116:8080/createDocument";
-                                        final OkHttpClient okHttpClient = new OkHttpClient();
-                                        final Request request = new Request.Builder()
-                                                .url(url)
-                                                .post(body)
-                                                .build();
-                                        try {
-                                            Call call = okHttpClient.newCall(request);
-                                            call.enqueue(new Callback() {
-                                                @Override
-                                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                                    if (e instanceof SocketTimeoutException) {
-                                                        int index = 0;
-                                                        // 重新提交验证   在这里最好限制提交次数
-                                                        if (index <= 5) {
-                                                            okHttpClient.newCall(call.request()).enqueue(this);
-                                                            index++;
+                                        // 将数据存入后台数据库
+                                        //根据是否有网络连接来判断是写入本地数据库还是传给后台
+                                        if (MainActivity.isInternet) {
+                                            Log.d("isInternet",MainActivity.isInternet+"");
+                                            MasterAndSlave masterAndSlave = new MasterAndSlave();
+                                            masterAndSlave.setMaster(documentMaster);
+                                            masterAndSlave.setSlaves(documentSlaves);
+                                            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                                            Gson gson = new GsonBuilder()
+                                                    .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                                                    .create();
+
+                                            String content = gson.toJson(masterAndSlave);
+                                            Log.i("documentMasterJSON",content);
+                                            RequestBody body = RequestBody.create(JSON, content);
+                                            String url = "http://192.168.0.116:8080/createDocument";
+                                            final OkHttpClient okHttpClient = new OkHttpClient();
+                                            final Request request = new Request.Builder()
+                                                    .url(url)
+                                                    .post(body)
+                                                    .build();
+                                            try {
+                                                Call call = okHttpClient.newCall(request);
+                                                call.enqueue(new Callback() {
+                                                    @Override
+                                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                                        if (e instanceof SocketTimeoutException) {
+                                                            int index = 0;
+                                                            // 重新提交验证   在这里最好限制提交次数
+                                                            if (index <= 5) {
+                                                                okHttpClient.newCall(call.request()).enqueue(this);
+                                                                index++;
+                                                            }
+                                                            Log.e("SocketTimeoutException",e.getMessage());
                                                         }
-                                                        Log.e("SocketTimeoutException",e.getMessage());
+                                                        if (e instanceof ConnectException) {
+                                                            Log.e("frost_connection",e.getMessage());
+                                                        }
                                                     }
-                                                    if (e instanceof ConnectException) {
-                                                        Log.e("frost_connection",e.getMessage());
+                                                    @Override
+                                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                                        final String responseBody = response.body().string();
+                                                        Log.i("response", responseBody);
+                                                        Message message = new Message();
+                                                        message.obj = responseBody;
+                                                        handler.sendMessage(message);
+                                                        Intent intent = new Intent(OrderActivity.this, MainActivity.class);
+                                                        if (responseBody.contains("成功")) {
+                                                            startActivity(intent);
+                                                        } else {
+                                                            //刷新页面
+                                                            refresh();
+                                                        }
                                                     }
-                                                }
-                                                @Override
-                                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                                    final String responseBody = response.body().string();
-                                                    Log.i("response", responseBody);
-                                                    Message message = new Message();
-                                                    message.obj = responseBody;
-                                                    handler.sendMessage(message);
-                                                    Intent intent = new Intent(OrderActivity.this, MainActivity.class);
-                                                    if (responseBody.contains("成功")) {
-                                                        startActivity(intent);
-                                                    } else {
-                                                        //刷新页面
-                                                        refresh();
+                                                });
+                                                //清空数据
+                                                documentSlaves.clear();
+                                                documentMaster = new DocumentMaster();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Log.d("isInternet",MainActivity.isInternet+"");
+                                            //写入本地数据库并对本地数据库里的商品数量进行增减
+                                            DeportRoomDatabase db = DeportRoomDatabase.getDataBase(getApplicationContext());
+                                            DocumentMasterDao dmDao = db.documentMasterDao();
+                                            DocumentSlaveDao dsDao = db.documentSlaveDao();
+                                            ProductMessageDao pmDao = db.productMessageDao();
+                                            dmDao.insert(documentMaster);
+                                            dsDao.insertListDocument(documentSlaves);
+                                            switch (documentMaster.getObject()) {
+                                                case "入库":
+                                                    Log.d("object","入库");
+                                                    for (DocumentSlave slave : documentSlaves) {
+                                                        pmDao.addCountById(slave.getCount(),slave.getProductId());
                                                     }
-                                                }
-                                            });
-                                            //清空数据
-                                            documentSlaves.clear();
-                                            documentMaster = new DocumentMaster();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                                    break;
+                                                case "出库":
+                                                    Log.d("object","出库");
+                                                    for (DocumentSlave slave : documentSlaves) {
+                                                        pmDao.reduceCountById(slave.getCount(), slave.getProductId());
+                                                    }
+                                                    break;
+                                            }
+                                            Intent intent = new Intent(OrderActivity.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     }
                                 }).start();

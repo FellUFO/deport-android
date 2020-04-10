@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.android.bottom.R;
 import com.android.bottom.data.entity.ProductMessage;
 import com.android.bottom.data.entity.TakeMaster;
+import com.android.bottom.ui.DatePickerActivity;
 import com.android.bottom.ui.MainActivity;
 import com.android.bottom.ui.OrderActivity;
 import com.android.bottom.ui.TaskActivity;
@@ -43,7 +44,7 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
-    final String[] items = new String[]{"xxxxx","新增出库"};
+    final String[] items = new String[]{"xxxxx","新增入库"};
     final String[] menus = new String[]{"新增出库","任务处理"};
     private int index;
     private HomeViewModel homeViewModel;
@@ -91,29 +92,34 @@ public class HomeFragment extends Fragment {
                                         startActivity(intent);
                                         break;
                                     case 1:
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                OkHttpClient client = new OkHttpClient();
-                                                String url = "http://192.168.0.116:8080/getTaskByState?state=0";
-                                                final Request request = new Request.Builder().url(url).build();
-                                                Call call = client.newCall(request);
-                                                call.enqueue(new Callback() {
-                                                    @Override
-                                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                                        Log.d("state","连接失败");
-                                                    }
-                                                    //异步请求
-                                                    @Override
-                                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                                        String responseBody = response.body().string();
-                                                        Message message = new Message();
-                                                        message.obj = responseBody;
-                                                        handler.sendMessage(message);
-                                                    }
-                                                });
-                                            }
-                                        }).start();
+                                        if (MainActivity.isInternet){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    OkHttpClient client = new OkHttpClient();
+                                                    String url = "http://192.168.0.116:8080/getTaskByState?state=0";
+                                                    final Request request = new Request.Builder().url(url).build();
+                                                    Call call = client.newCall(request);
+                                                    call.enqueue(new Callback() {
+                                                        @Override
+                                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                                            Log.d("state",e.getMessage());
+
+                                                        }
+                                                        //异步请求
+                                                        @Override
+                                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                                            String responseBody = response.body().string();
+                                                            Message message = new Message();
+                                                            message.obj = responseBody;
+                                                            handler.sendMessage(message);
+                                                        }
+                                                    });
+                                                }
+                                            }).start();
+                                        } else {
+                                            Toast.makeText(getActivity(), "网络异常，无法使用此功能！", Toast.LENGTH_SHORT).show();
+                                        }
                                         break;
                                 }
                                 Toast.makeText(getActivity(), "这是确定按钮" + "点的是：" + items[index], Toast.LENGTH_SHORT).show();
@@ -131,7 +137,9 @@ public class HomeFragment extends Fragment {
         historyOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //时间选择器选择时间段
+                Intent intent = new Intent(getActivity(), DatePickerActivity.class);
+                startActivity(intent);
             }
         });
 

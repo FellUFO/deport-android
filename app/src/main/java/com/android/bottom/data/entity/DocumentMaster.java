@@ -1,33 +1,37 @@
 package com.android.bottom.data.entity;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+@Entity(tableName = "document_master")
 public class DocumentMaster {
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "order_id")
     private String orderId;
 
+    @ColumnInfo(name = "object")
     private String object;
 
-    private BigDecimal totalPrice;
-
-    private Integer totalCount;
-
+    @ColumnInfo(name = "generate")
     private Date generate;
 
+    @ColumnInfo(name = "operator")
     private Integer operator;
 
+    @ColumnInfo(name = "deport_id")
     private Integer deportId;
 
-    private List<DocumentSlave> documentSlaves;
 
-    public List<DocumentSlave> getDocumentSlaves() {
-        return documentSlaves;
-    }
 
-    public void setDocumentSlaves(List<DocumentSlave> documentSlaves) {
-        this.documentSlaves = documentSlaves;
-    }
+
 
     public String getOrderId() {
         return orderId;
@@ -43,22 +47,6 @@ public class DocumentMaster {
 
     public void setObject(String object) {
         this.object = object == null ? null : object.trim();
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Integer getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
     }
 
     public Date getGenerate() {

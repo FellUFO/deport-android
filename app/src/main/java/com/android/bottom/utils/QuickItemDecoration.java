@@ -1,4 +1,4 @@
-package com.android.bottom.ui;
+package com.android.bottom.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -68,6 +68,7 @@ public abstract class FoldableRecyclerViewAdapter<K, V> extends RecyclerView.Ada
         }
     }
 
+    public FoldableRecyclerViewAdapter() {}
     @Override
     public int getItemCount() {
         if (mSize == 0) {
@@ -196,7 +197,6 @@ public abstract class FoldableRecyclerViewAdapter<K, V> extends RecyclerView.Ada
                 return true;
             }
         });
-
         onBindView((FoldableViewHolder) viewHolder, position);
     }
 

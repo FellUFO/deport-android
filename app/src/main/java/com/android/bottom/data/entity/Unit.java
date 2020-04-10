@@ -3,6 +3,11 @@ package com.android.bottom.data.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 二级列表数据实体
+ * @param <K>
+ * @param <V>
+ */
 public class Unit<K, V> {
     public K group;
     public List<V> children;

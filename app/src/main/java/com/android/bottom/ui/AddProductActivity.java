@@ -45,7 +45,7 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
     private EditText note;
     private EditText count;
     private int index;
-    ProductMessage productMessage;
+    private ProductMessage productMessage;
 
 
     @Override
@@ -84,6 +84,7 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
 
     }
 
+    //添加商品
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -119,9 +120,8 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
                             call.enqueue(new Callback() {
                                 @Override
                                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+                                    e.printStackTrace();
                                 }
-
                                 @Override
                                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                     Log.i("reponse", response.body().string());
@@ -134,4 +134,5 @@ public class AddProductActivity extends AppCompatActivity implements AdapterView
                 break;
         }
     }
+
 }

@@ -57,4 +57,6 @@ public class TakeMaster implements Serializable {
         this.state = state;
         this.slaves = slaves;
     }
+
+    public TakeMaster(){}
 }

@@ -14,4 +14,5 @@
     <string name="order_title">单据填写</string>
     <string name="title">当前库存</string>
     <string name="count_num">1</string>
+    <string name="working">选择处理</string>
 </resources>

@@ -1,23 +1,39 @@
 package com.android.bottom.data.entity;
 
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity(tableName = "product_message")
 public class ProductMessage {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "product_id")
     private String productId;
 
+    @ColumnInfo(name = "product_name")
     private String productName;
 
+    @ColumnInfo(name = "add_time")
     private Date addTime;
 
+    @ColumnInfo(name = "update_time")
     private Date updateTime;
 
+    @ColumnInfo(name = "category")
     private String category;
 
+    @ColumnInfo(name = "message")
     private String message;
 
+    @ColumnInfo(name = "count")
     private Integer count;
 
+    @ColumnInfo(name = "warehouse_id")
     private Integer warehouseId;
 
     public String getProductId() {
@@ -84,4 +100,6 @@ public class ProductMessage {
         this.warehouseId = warehouseId;
     }
 
+    public ProductMessage() {
+    }
 }

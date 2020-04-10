@@ -1,11 +1,22 @@
 package com.android.bottom.data.entity;
 
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-
+@Entity(tableName = "warehouse")
 public class Warehouse {
+
+    public Warehouse() {
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private Integer warehouseId;
 
+    @ColumnInfo(name = "warehouse_name")
     private String warehouseName;
 
     public Integer getWarehouseId() {
