@@ -71,7 +71,7 @@ public class DashboardFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        productViewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<ProductMessage>>() {
+        productViewModel.getAllProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductMessage>>() {
             @Override
             public void onChanged(List<ProductMessage> productMessages) {
                 mAdapter.setVerticalDataList(productMessages);

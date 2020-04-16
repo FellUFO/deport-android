@@ -26,12 +26,19 @@ public class DocumentMaster {
     @ColumnInfo(name = "operator")
     private Integer operator;
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     @ColumnInfo(name = "deport_id")
     private Integer deportId;
 
-
-
-
+    @ColumnInfo(name = "state")
+    private Integer state;  //单据类别 0---》未上传；1---》已上传。
 
     public String getOrderId() {
         return orderId;
@@ -72,6 +79,4 @@ public class DocumentMaster {
     public void setDeportId(Integer deportId) {
         this.deportId = deportId;
     }
-
-
 }

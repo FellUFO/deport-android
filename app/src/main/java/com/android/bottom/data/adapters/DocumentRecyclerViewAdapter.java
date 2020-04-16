@@ -1,7 +1,5 @@
 package com.android.bottom.data.adapters;
 
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,57 +8,48 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.bottom.R;
-import com.android.bottom.data.entity.TakeMaster;
 import com.android.bottom.data.entity.Unit;
 import com.android.bottom.data.viewholder.DocumentMasterVH;
 import com.android.bottom.data.viewholder.DocumentSlaveVH;
 import com.android.bottom.data.viewholder.FoldableViewHolder;
-import com.android.bottom.data.viewholder.TaskMasterVH;
-import com.android.bottom.data.viewholder.TaskSlaveVH;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import wellijohn.org.treerecyclerview.adapter.BaseTreeRVAdapter;
-import wellijohn.org.treerecyclerview.vo.TreeItem;
+public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private Context mContext;
+
+    /**
+     * 上级布局
+     */
+    private int mGroupLayoutRes;
+    /**
+     * 下级布局
+     */
+    private int mChildLayoutRes;
+
+    /**
+     * 数据
+     */
+    private List<Unit<K, V>> mData;
+
+    /**
+     * 点击与长按监听接口
+     */
+    public interface OnItemClickLitener {
+        void onItemClick(View view, int position);
+
+        void onItemLongClick(View view, int position);
+    }
 
 
-public abstract class FoldableRecyclerViewAdapter<K, V> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private FoldableRecyclerViewAdapter.OnItemClickLitener itemClickLitener;
 
-private Context mContext;
-
-/**
- * 上级布局
- */
-private int mGroupLayoutRes;
-/**
- * 下级布局
- */
-private int mChildLayoutRes;
-
-/**
- * 数据
- */
-private List<Unit<K, V>> mData;
-
-/**
- * 点击与长按监听接口
- */
-public interface OnItemClickLitener {
-    void onItemClick(View view, int position);
-
-    void onItemLongClick(View view, int position);
-}
-
-
-    private OnItemClickLitener itemClickLitener;
-
-    public void setOnItemClickLitener(OnItemClickLitener itemClickLitener) {
+    public void setOnItemClickLitener(FoldableRecyclerViewAdapter.OnItemClickLitener itemClickLitener) {
         this.itemClickLitener = itemClickLitener;
     }
 
-    public FoldableRecyclerViewAdapter(Context mContext, int mGroupLayoutRes, int mChildLayoutRes, List<Unit<K, V>> mData) {
+    public DocumentRecyclerViewAdapter(Context mContext, int mGroupLayoutRes, int mChildLayoutRes, List<Unit<K, V>> mData) {
         this.mContext = mContext;
         this.mGroupLayoutRes = mGroupLayoutRes;
         this.mChildLayoutRes = mChildLayoutRes;
@@ -71,7 +60,7 @@ public interface OnItemClickLitener {
         }
     }
 
-    public FoldableRecyclerViewAdapter() {}
+    public DocumentRecyclerViewAdapter() {}
     @Override
     public int getItemCount() {
         if (mSize == 0) {
@@ -164,9 +153,9 @@ public interface OnItemClickLitener {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if (viewType == FoldableViewHolder.CHILD) {
-            return new TaskSlaveVH(LayoutInflater.from(mContext).inflate(mChildLayoutRes, viewGroup, false));
+            return new DocumentSlaveVH(LayoutInflater.from(mContext).inflate(mChildLayoutRes, viewGroup, false));
         }
-        return new TaskMasterVH(LayoutInflater.from(mContext).inflate(mGroupLayoutRes, viewGroup, false));
+        return new DocumentMasterVH(LayoutInflater.from(mContext).inflate(mGroupLayoutRes, viewGroup, false));
     }
 
     @Override
@@ -176,7 +165,7 @@ public interface OnItemClickLitener {
             @Override
             public void onClick(View v) {
 //				System.out.println("click="+viewHolder.getAdapterPosition());
-                if (viewHolder instanceof TaskMasterVH) {
+                if (viewHolder instanceof DocumentMasterVH) {
                     Unit<K,V> unit = getUnit(viewHolder.getAdapterPosition());
                     unit.folded = !unit.folded;
                     mSize = 0;
@@ -204,7 +193,5 @@ public interface OnItemClickLitener {
     }
 
     public abstract void onBindView(FoldableViewHolder holder, int position);
-
-
 
 }

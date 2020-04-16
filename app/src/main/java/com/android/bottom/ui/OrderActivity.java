@@ -131,7 +131,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                     documentMaster.setOperator(personnel);
                     documentMaster.setGenerate(new Date());
                     documentMaster.setObject(object);
-                    documentMaster.setOrderId(OrderIDUtil.getOrderNum());
+                    documentMaster.setOrderId(orderNum);
                     //将对象添加进集合
                     documentSlaves.add(documentSlave);
                     //创建对话框
@@ -257,7 +257,9 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
-                                        } else {
+                                        }
+                                        else {
+                                            documentMaster.setState(0); //添加未上传标识
                                             Log.d("isInternet",MainActivity.isInternet+"");
                                             //写入本地数据库并对本地数据库里的商品数量进行增减
                                             DeportRoomDatabase db = DeportRoomDatabase.getDataBase(getApplicationContext());

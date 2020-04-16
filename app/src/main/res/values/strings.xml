@@ -15,4 +15,15 @@
     <string name="title">当前库存</string>
     <string name="count_num">1</string>
     <string name="working">选择处理</string>
+    <string name="title_activity_history_order">HistoryOrderActivity</string>
+    <string name="tab_text_1">在线单据</string>
+    <string name="tab_text_2">离线单据</string>
+    <string name="history_order_title">历史单据</string>
+    <string name="error_str">\"当前为离线模式，无法获取数据\"</string>
+    <string name="tip">离线模式已关闭</string>
+    <string name="deal_with">进行处理</string>
+    <string name="date_title">当前显示日期为：</string>
+    <string name="default_date">2019-01-01</string>
+    <string name="tip_upload">暂无可上传数据</string>
+    <string name="tip_success">数据已全部上传至后台</string>
 </resources>

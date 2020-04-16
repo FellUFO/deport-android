@@ -14,7 +14,7 @@ import java.util.List;
 public interface DocumentSlaveDao {
 
     @Query("select * from document_slave where master_id = :id")
-    LiveData<List<DocumentSlave>> getDocumentByMasterId(String id);
+    List<DocumentSlave> getDocumentByMasterId(String id);
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

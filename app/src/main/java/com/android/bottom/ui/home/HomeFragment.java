@@ -17,19 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.bottom.R;
-import com.android.bottom.data.entity.ProductMessage;
-import com.android.bottom.data.entity.TakeMaster;
-import com.android.bottom.ui.DatePickerActivity;
+import com.android.bottom.ui.HistoryOrderActivity;
 import com.android.bottom.ui.MainActivity;
 import com.android.bottom.ui.OrderActivity;
 import com.android.bottom.ui.TaskActivity;
-import com.android.bottom.ui.order.DocumentFragment;
-import com.google.gson.Gson;
+import com.android.bottom.viewmodel.HomeViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +34,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
@@ -138,11 +132,18 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //时间选择器选择时间段
-                Intent intent = new Intent(getActivity(), DatePickerActivity.class);
+                Intent intent = new Intent(getActivity(), HistoryOrderActivity.class);
                 startActivity(intent);
             }
         });
+        locationManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
 
+            }
+        });
     }
 
 

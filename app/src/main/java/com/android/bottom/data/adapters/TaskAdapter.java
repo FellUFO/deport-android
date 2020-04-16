@@ -1,7 +1,6 @@
 package com.android.bottom.data.adapters;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.TextView;
 
 import com.android.bottom.R;
@@ -32,7 +31,6 @@ public class TaskAdapter extends FoldableRecyclerViewAdapter<TakeMaster, TakeSla
         if (holder instanceof TaskSlaveVH) {
             TextView tvName = holder.getView(R.id.product_id);
             TextView tvSize = holder.getView(R.id.need_num);
-            TextView working = holder.getView(R.id.working);
             TakeSlave slave = (TakeSlave) getItem(position);
                 tvName.setText(slave.getProductId());
                 tvSize.setText(String.valueOf(slave.getTaskCount()));

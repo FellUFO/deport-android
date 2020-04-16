@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
                         ProductLocation.class,
                         Warehouse.class,
                         DocumentMaster.class,
-                        DocumentSlave.class}, version = 3, exportSchema = false)
+                        DocumentSlave.class}, version = 4, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class DeportRoomDatabase extends RoomDatabase {
 

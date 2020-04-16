@@ -2,24 +2,21 @@ package com.android.bottom.data.viewholder;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.bottom.R;
 
-public class TaskSlaveVH extends FoldableViewHolder {
+public class DocumentSlaveVH extends FoldableViewHolder {
     public TextView needNum;
     public ImageView iv;
     public ConstraintLayout cl;
     public TextView productID;
-    public Switch aSwitch;
 
 
-    public TaskSlaveVH(@NonNull View itemView) {
+    public DocumentSlaveVH(@NonNull View itemView) {
         super(itemView);
         initView();
     }
@@ -29,6 +26,5 @@ public class TaskSlaveVH extends FoldableViewHolder {
         productID = itemView.findViewById(R.id.product_id);
         iv = itemView.findViewById(R.id.iv);
         cl = itemView.findViewById(R.id.cl);
-        aSwitch = itemView.findViewById(R.id.switch1);
     }
 }

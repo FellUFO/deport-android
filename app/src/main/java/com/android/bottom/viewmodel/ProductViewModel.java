@@ -23,6 +23,6 @@ public class ProductViewModel extends AndroidViewModel {
         mProducts = mProductRepository.getAllProductMessage();
     }
 
-    public LiveData<List<ProductMessage>> getAllWords() { return mProducts;}
+    public LiveData<List<ProductMessage>> getAllProducts() { return mProducts;}
 
 }

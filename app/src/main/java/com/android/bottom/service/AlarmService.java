@@ -98,10 +98,7 @@ public class AlarmService extends Service {
                     if (response.isSuccessful()) {
                         String data = response.body().string();
                         ParsingJSONData(data,products);
-//                        for (ProductMessage message : products) {
-//                            Log.i("productId",message.getProductId());
-//                        }
-//                        将数据存进本地数据库
+                        //将数据存进本地数据库
                         DeportRoomDatabase dataBase = DeportRoomDatabase.getDataBase(getApplicationContext());
                         ProductMessageDao pmDao = dataBase.productMessageDao();
                         LiveData<List<ProductMessage>> listLiveData = pmDao.selectAllProduct();

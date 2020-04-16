@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.bottom.R;
+import com.android.bottom.viewmodel.DocumentViewModel;
 
 public class DocumentFragment extends Fragment {
 
@@ -32,7 +33,6 @@ public class DocumentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(DocumentViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }
