@@ -24,6 +24,7 @@ import com.android.bottom.ui.HistoryOrderActivity;
 import com.android.bottom.ui.MainActivity;
 import com.android.bottom.ui.OrderActivity;
 import com.android.bottom.ui.TaskActivity;
+import com.android.bottom.ui.LocationActivity;
 import com.android.bottom.viewmodel.HomeViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -139,9 +140,8 @@ public class HomeFragment extends Fragment {
         locationManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
                 startActivity(intent);
-
             }
         });
     }
@@ -152,6 +152,9 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * 生成对话框
+     */
     public void getAlertDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("请选择你的操作")
