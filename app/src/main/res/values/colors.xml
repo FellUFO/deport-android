@@ -17,4 +17,10 @@
 
     // this is for Deactivated dates
     <color name="calendar_range_middle_deactivated_bg">#673AB7</color>
+    //psam
+    <color name="text_no_check_bg">#000000</color>
+    <color name="text_check_bg">#FFFFFF</color>
+    <color name="btn_bg_color">#d6d7d7</color>
+    <color name="no_color_check_bg">#d6d7d7</color>
+    <color name="color_check_bg">#458ed5</color>
 </resources>

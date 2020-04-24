@@ -26,4 +26,107 @@
     <string name="default_date">2019-01-01</string>
     <string name="tip_upload">暂无可上传数据</string>
     <string name="tip_success">数据已全部上传至后台</string>
+
+    <!-- psam -->
+    <string name="po1">PowerON Card1</string>
+    <string name="po2">PowerON Card2</string>
+    <string name="po3">valid</string>
+    <string name="poff">PowerOFF</string>
+    <string name="cmd">Send CMD</string>
+    <string name="txt_select">Current select card: None</string>
+    <string name="txt_active">active card 1 failed, maybe card is not present or some error occured</string>
+    <string name="txt_active2">active card 2 failed, maybe card is not present or some error occured</string>
+    <string name="txt_success">success get ATR</string>
+    <string name="txt_select_card1">Current select card: Card1</string>
+    <string name="txt_select_card2">Current select card: Card2</string>
+    <string name="txt_invalid_char">Invalid char, cmd shoud formed by HEX number</string>
+    <string name="txt_invalid_mApdu">Invalid mApdu, cmd shoud formed by HEX number</string>
+    <string name="txt_exec_cmd">exec cmd failed, please retry</string>
+    <string name="txt_success_execute">success execute cmd</string>
+
+    <string name="action_settings">setting</string>
+    <string name="error_configuration">Please configure your serial port first.</string>
+    <string name="error_security">You do not have read/write permission to the serialport.</string>
+    <string name="error_unknown">The serial port can not be opened for an unknown reason.</string>
+    <string name="hint_concentration">Please enter an integer between 0 and 39</string>
+    <string name="hint_language_set">Please enter an integer between 0 and 128</string>
+    <string name="hint_encode_set">Please enter an integer between 1 and 3</string>
+    <string name="hint_speed">Please enter an integer between 0 and 3</string>
+    <string name="ok">Ok</string>
+    <string name="cancle">Cancle</string>
+    <string name="query_version">Query Version</string>
+    <string name="TXT_POWER_ON">PowerOn</string>
+    <string name="TXT_POWER_OFF">PowerOff</string>
+    <string name="TXT_OPEN">Open</string>
+    <string name="TXT_CLOSE">Close</string>
+    <string name="TXT_RECORD">Reception</string>
+    <string name="TXT_Speed">Print Speed</string>
+    <string name="TXT_concentration">Concentration</string>
+    <string name="TXT_print_test">Print Test</string>
+    <string name="TXT_print_barcode">Print Barcode</string>
+    <string name="TXT_print_bill">Print Bill</string>
+    <string name="TXT_Paper_feed">Paper Feed</string>
+    <string name="TXT_print_text">Print Text</string>
+    <string name="TXT_print_picture">Print Picture</string>
+    <string name="TXT_to_blackmark">To BlackMark</string>
+    <string name="TXT_print_content">Content</string>
+    <string name="TXT_feature_list">Feature List</string>
+    <string name="TXT_language_switch">Language Switch</string>
+    <string name="TXT_encode_set">Encode Set</string>
+    <string name="TXT_encode_set_complete">The Encoding Type Has Been Set </string>
+    <string name="TXT_print_default_barcode">Print default barcode</string>
+    <string name="TXT_print_qr">Print QR</string>
+    <string name="TXT_create_code">Generate one-dimensional code</string>
+    <string name="TXT_create_qr">Generate QR code</string>
+    <string name="TXT_load_default_img">Load default image</string>
+    <string name="TXT_text_to_img">Text to picture</string>
+    <string name="TXT_marginLeft">Left margin: </string>
+    <string name="TXT_default_value">(0-39)</string>
+    <string name="TXT_width">width:</string>
+    <string name="TXT_height">height:</string>
+    <string name="TXT_feed_paper">Paper distance:</string>
+    <string name="TXT_input_text">Input text cannot be empty</string>
+
+    <!-- print2 -->
+    <string name="TXT_content">Code content:</string>
+    <string name="TXT_input_content">Please input content to generate barcode</string>
+    <string name="height_of_the_image">Image High:</string>
+    <string name="width_of_the_image">Image Width:</string>
+    <string name="generate_barcode"> 1D code</string>
+    <string name="generate_qrcode"> QRcode</string>
+    <string name="select_image">Choose Picture</string>
+    <string name="magin_left">Left margin:</string>
+    <string name="print_density">concentration(25-39):</string>
+    <string name="print">Print</string>
+    <string name="print_text">Print Text</string>
+    <string name="print_image">Print Image</string>
+    <string name="mixture_print">Mixture Print</string>
+    <string name="font_size">Font test</string>
+    <string name="input_print">Input to print</string>
+    <string name="text_to_bitmap">Text to bitmap</string>
+    <string name="toast_text">Please choose one dimension code, two dimension code or choose picture</string>
+    <string name="print_font_size">font size</string>
+    <string name="print_text_align">text-align</string>
+
+    <!-- Language -->
+    <string name="str_english">English</string>
+    <string name="str_simplified_chinese">Simplified Chinese</string>
+    <string name="str_traditional_chinese">Traditional Chinese</string>
+    <string name="str_japanese">Japanese</string>
+    <string name="str_korean">Korean</string>
+    <string name="str_russian">Russian</string>
+    <string name="str_french">French</string>
+    <string name="str_german">German</string>
+    <string name="str_vietnamese">Vietnamese</string>
+    <string name="str_greek">Greek</string>
+    <string name="str_turkish">Turkish</string>
+    <string name="str_arabic">Arabic</string>
+
+    <!-- toast -->
+    <string name="toast_print_success">Print completed</string>
+    <string name="toast_print_error">Print failed</string>
+    <string name="toast_high_temperature">high temperature</string>
+    <string name="toast_no_paper">No paper</string>
+    <string name="toast_check">Please Check picture</string>
+    <string name="error_tip">当前为离线模式，无法上传数据</string>
 </resources>

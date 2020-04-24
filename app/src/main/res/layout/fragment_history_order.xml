@@ -7,12 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.historyorder.OnLineFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/order_list"
-        android:layout_width="413dp"
-        android:layout_height="657dp"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="410dp"
+        android:layout_height="645dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_list"
+            android:layout_width="413dp"
+            android:layout_height="657dp"
+            android:scrollbars="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline14" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"
