@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
 @Entity(tableName = "product_message")
@@ -36,6 +38,7 @@ public class ProductMessage {
     @ColumnInfo(name = "warehouse_id")
     private Integer warehouseId;
 
+    @NotNull
     public String getProductId() {
         return productId;
     }
@@ -101,5 +104,20 @@ public class ProductMessage {
     }
 
     public ProductMessage() {
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "ProductMessage{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
+                ", category='" + category + '\'' +
+                ", message='" + message + '\'' +
+                ", count=" + count +
+                ", warehouseId=" + warehouseId +
+                '}';
     }
 }

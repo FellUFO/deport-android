@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.deport.data.entity.Unit;
 import com.android.deport.data.viewholder.FoldableViewHolder;
 import com.android.deport.data.viewholder.TaskMasterVH;
@@ -26,6 +25,7 @@ public abstract class FoldableRecyclerViewAdapter<K, V> extends RecyclerView.Ada
      * 上级布局
      */
     private int mGroupLayoutRes;
+
     /**
      * 下级布局
      */
@@ -52,7 +52,7 @@ public abstract class FoldableRecyclerViewAdapter<K, V> extends RecyclerView.Ada
         this.itemClickLitener = itemClickLitener;
     }
 
-    public FoldableRecyclerViewAdapter(Context mContext, int mGroupLayoutRes, int mChildLayoutRes, List<Unit<K, V>> mData) {
+    FoldableRecyclerViewAdapter(Context mContext, int mGroupLayoutRes, int mChildLayoutRes, List<Unit<K, V>> mData) {
         this.mContext = mContext;
         this.mGroupLayoutRes = mGroupLayoutRes;
         this.mChildLayoutRes = mChildLayoutRes;
@@ -162,30 +162,26 @@ public abstract class FoldableRecyclerViewAdapter<K, V> extends RecyclerView.Ada
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.itemView.setOnClickListener( (v) ->{
                 if (viewHolder instanceof TaskMasterVH) {
                     Unit<K,V> unit = getUnit(viewHolder.getAdapterPosition());
-                    unit.folded = !unit.folded;
-                    mSize = 0;
-                    if(unit.folded){
-                        notifyItemRangeRemoved(viewHolder.getAdapterPosition()+1,unit.children.size());
-                    }else{
-                        notifyItemRangeInserted(viewHolder.getAdapterPosition()+1,unit.children.size());
+                    if (unit != null) {
+                        unit.folded = !unit.folded;
+                        mSize = 0;
+                        if(unit.folded){
+                            notifyItemRangeRemoved(viewHolder.getAdapterPosition()+1,unit.children.size());
+                        }else{
+                            notifyItemRangeInserted(viewHolder.getAdapterPosition()+1,unit.children.size());
+                        }
                     }
                 }
                 if (itemClickLitener != null)
                     itemClickLitener.onItemClick(viewHolder.itemView, viewHolder.getLayoutPosition());
-            }
-        });
-        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
+                    });
+        viewHolder.itemView.setOnLongClickListener((v) ->{
                 if (itemClickLitener != null)
                     itemClickLitener.onItemLongClick(viewHolder.itemView, viewHolder.getLayoutPosition());
                 return true;
-            }
         });
         onBindView((FoldableViewHolder) viewHolder, position);
     }

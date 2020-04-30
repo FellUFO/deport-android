@@ -26,4 +26,6 @@ public interface ProductLocationDao {
     @Query("DELETE FROM product_location")
     void clear();
 
+    @Query("DELETE FROM product_location WHERE location_num = :locationNum AND product_id = :id")
+    void deleteByProductID(String id, String locationNum);
 }

@@ -2,6 +2,7 @@ package com.android.deport.data.viewholder;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class TaskSlaveVH extends FoldableViewHolder {
         productID = itemView.findViewById(R.id.product_id);
         iv = itemView.findViewById(R.id.iv);
         cl = itemView.findViewById(R.id.cl);
-        aSwitch = itemView.findViewById(R.id.switch1);
+        LinearLayout linearLayout = itemView.findViewById(R.id.linear_slave);
+        linearLayout.setVisibility(View.INVISIBLE);
     }
 }

@@ -31,6 +31,7 @@ public class TaskAdapter extends FoldableRecyclerViewAdapter<TakeMaster, TakeSla
         if (holder instanceof TaskSlaveVH) {
             TextView tvName = holder.getView(R.id.product_id);
             TextView tvSize = holder.getView(R.id.need_num);
+
             TakeSlave slave = (TakeSlave) getItem(position);
                 tvName.setText(slave.getProductId());
                 tvSize.setText(String.valueOf(slave.getTaskCount()));

@@ -39,10 +39,9 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
-    final String[] items = new String[]{"xxxxx","新增入库"};
+    final String[] items = new String[]{"扫码入库","新增入库"};
     final String[] menus = new String[]{"新增出库","任务处理"};
     private int index;
-    private HomeViewModel homeViewModel;
     private Button enter;
     private Button out;
     private Button historyOrder;
@@ -50,7 +49,7 @@ public class HomeFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         return root;
     }
@@ -144,7 +143,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
     }
 
 

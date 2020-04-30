@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.nalan.swipeitem.recyclerview.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="75dp">
-
-    <RelativeLayout
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/bmp"
-            android:scaleType="fitXY"
-            android:src="@drawable/bmp_qq_1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
+    android:layout_height="60dp"
+    android:background="#fff">
+    <!--    添加图标-->
+    <!--        android:layout_toRightOf="@+id/iv_icon"-->
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/stick"
-            android:text="置顶"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:background="@drawable/btn_stick"
-            android:layout_width="100dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/mark"
-            android:text="标记未读"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:background="@drawable/btn_mark"
-            android:layout_width="120dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/delete"
-            android:text="删除"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:background="@drawable/btn_delete"
-            android:layout_width="100dp"
-            android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp">
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username" />
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="让我们成为好友吧？" />
     </LinearLayout>
 
-</com.nalan.swipeitem.recyclerview.SwipeItemLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:paddingRight="5dp"
+        android:layout_centerVertical="true">
+        <Button
+            android:id="@+id/btn_agree"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="修改"
+            android:textSize="10dp"/>
+        <Button
+            android:id="@+id/btn_refuse"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="删除"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

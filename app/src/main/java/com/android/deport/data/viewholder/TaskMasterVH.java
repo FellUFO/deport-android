@@ -8,9 +8,9 @@ import com.android.deport.R;
 
 public class TaskMasterVH extends FoldableViewHolder  {
 
-    public TextView tvName;
-    public TextView tvNum;
-    public ImageView iv;
+    private TextView tvName;
+    private TextView tvNum;
+    private ImageView iv;
 
     public TaskMasterVH(View view) {
         super(view);
@@ -21,5 +21,8 @@ public class TaskMasterVH extends FoldableViewHolder  {
         tvName = itemView.findViewById(R.id.tv_name);
         tvNum = itemView.findViewById(R.id.tv_num);
         iv = itemView.findViewById(R.id.iv);
+        TextView textView = itemView.findViewById(R.id.object);
+        textView.setVisibility(View.INVISIBLE);
+
     }
 }

@@ -275,6 +275,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                                     }
                                                     break;
                                             }
+                                            onResume();
                                             Intent intent = new Intent(OrderActivity.this, MainActivity.class);
                                             startActivity(intent);
                                         }
@@ -304,7 +305,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-             result = (String) msg.obj;
+            result = (String) msg.obj;
             Toast.makeText(OrderActivity.this, result, Toast.LENGTH_SHORT).show();
         }
     };

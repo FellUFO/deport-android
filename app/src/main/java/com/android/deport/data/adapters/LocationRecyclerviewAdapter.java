@@ -6,27 +6,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.deport.R;
+import com.android.deport.data.viewholder.LocationVH;
 import com.android.deport.data.entity.Unit;
-import com.android.deport.data.viewholder.DocumentMasterVH;
-import com.android.deport.data.viewholder.DocumentSlaveVH;
 import com.android.deport.data.viewholder.FoldableViewHolder;
-import com.android.deport.ui.MainActivity;
+import com.android.deport.data.viewholder.ProductVH;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class LocationRecyclerviewAdapter<K, V> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private Context mContext;
 
     /**
      * 上级布局
      */
     private int mGroupLayoutRes;
+
     /**
      * 下级布局
      */
@@ -47,13 +47,7 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
     }
 
 
-    private FoldableRecyclerViewAdapter.OnItemClickLitener itemClickLitener;
-
-    public void setOnItemClickLitener(FoldableRecyclerViewAdapter.OnItemClickLitener itemClickLitener) {
-        this.itemClickLitener = itemClickLitener;
-    }
-
-    public DocumentRecyclerViewAdapter(Context mContext, int mGroupLayoutRes, int mChildLayoutRes, List<Unit<K, V>> mData) {
+    LocationRecyclerviewAdapter(Context mContext, int mGroupLayoutRes, int mChildLayoutRes, List<Unit<K, V>> mData) {
         this.mContext = mContext;
         this.mGroupLayoutRes = mGroupLayoutRes;
         this.mChildLayoutRes = mChildLayoutRes;
@@ -64,7 +58,11 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
         }
     }
 
-    public DocumentRecyclerViewAdapter() {}
+    /**
+     * 无参构造
+     */
+    public LocationRecyclerviewAdapter() {}
+
     @Override
     public int getItemCount() {
         if (mSize == 0) {
@@ -74,7 +72,6 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
             }
             mSize = totalSize;
         }
-//		System.out.println("itemCount="+mSize);
         return mSize;
     }
 
@@ -102,7 +99,6 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
                     return FoldableViewHolder.CHILD;
                 }
             }
-
         }
         return FoldableViewHolder.GROUP;
     }
@@ -112,7 +108,7 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
      * @param position 索引
      * @return K/V
      */
-    public Object getItem(int position) {
+     Object getItem(int position) {
         int currentPosition = -1;
         for (Unit unit : mData) {
             if (unit.folded) {
@@ -152,25 +148,26 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
         }
         return null;
     }
-
+    private OnItemClickLitener itemClickLitener;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        LocationVH locationVH = new LocationVH(LayoutInflater.from(mContext).inflate(mGroupLayoutRes, viewGroup, false));
         if (viewType == FoldableViewHolder.CHILD) {
-            return new DocumentSlaveVH(LayoutInflater.from(mContext).inflate(mChildLayoutRes, viewGroup, false));
+            return new ProductVH(LayoutInflater.from(mContext).inflate(mChildLayoutRes, viewGroup, false));
         }
-        return new DocumentMasterVH(LayoutInflater.from(mContext).inflate(mGroupLayoutRes, viewGroup, false));
+        return locationVH;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
-
-        viewHolder.itemView.setOnClickListener((v) -> {
-                if (viewHolder instanceof DocumentMasterVH) {
-                    Unit<K,V> unit = getUnit(viewHolder.getAdapterPosition());
+        viewHolder.itemView.setOnClickListener( (v) ->{
+            if (viewHolder instanceof LocationVH) {
+                Unit<K,V> unit = getUnit(viewHolder.getAdapterPosition());
+                if (unit != null) {
                     unit.folded = !unit.folded;
                     mSize = 0;
-                    ImageView iv= ((DocumentMasterVH) viewHolder).iv;
+                    ImageView iv= ((LocationVH) viewHolder).iv;
                     iv.setImageResource(R.drawable.down_arrow);
                     if(unit.folded){
                         iv.setImageResource(R.drawable.ic_arrow_right);
@@ -180,17 +177,21 @@ public abstract class DocumentRecyclerViewAdapter<K, V> extends RecyclerView.Ada
                         notifyItemRangeInserted(viewHolder.getAdapterPosition()+1,unit.children.size());
                     }
                 }
-                if (itemClickLitener != null)
-                    itemClickLitener.onItemClick(viewHolder.itemView, viewHolder.getLayoutPosition());
+            }
+            if (itemClickLitener != null)
+                itemClickLitener.onItemClick(viewHolder.itemView, viewHolder.getLayoutPosition());
         });
         viewHolder.itemView.setOnLongClickListener( (v) -> {
-                if (itemClickLitener != null)
-                    itemClickLitener.onItemLongClick(viewHolder.itemView, viewHolder.getLayoutPosition());
-                return true;
+            if (itemClickLitener != null)
+                itemClickLitener.onItemLongClick(viewHolder.itemView, viewHolder.getLayoutPosition());
+            return true;
         });
         onBindView((FoldableViewHolder) viewHolder, position);
     }
 
-    public abstract void onBindView(FoldableViewHolder holder, int position);
+    abstract void onBindView(FoldableViewHolder holder, int position);
+
+
+
 
 }

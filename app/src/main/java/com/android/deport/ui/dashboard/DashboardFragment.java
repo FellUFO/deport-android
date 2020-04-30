@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,8 @@ public class DashboardFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<ProductMessage> products = new ArrayList<>();
     private DashboardAdapter mAdapter;
+    private SearchView searchView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +92,7 @@ public class DashboardFragment extends Fragment {
                 }).start();
             }
         });
+        searchView = root.findViewById(R.id.searchView);
         return root;
     }
 }

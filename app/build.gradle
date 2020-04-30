@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.alibaba:fastjson:1.2.68'
     //recylerview多级列表库
-    implementation 'com.github.WelliJohn:MultiLevelRecyclerView:0.0.1'
+//    implementation 'com.github.WelliJohn:MultiLevelRecyclerView:0.0.1'
     //orm框架--》room
     def room_version = "2.2.3"
     implementation "androidx.room:room-runtime:$room_version"
